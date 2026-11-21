@@ -2,18 +2,20 @@ use std::fs;
 fn refactor(){
 	let raw:String=fs::read_to_string("osracg_data.txt").unwrap();
 	let mut rpline:Vec<String>=raw.clone().split("\n").map(|x|x.to_string()).collect::<Vec<String>>();
-	let mut time_l:Vec<i64>=Vec::new();
+	let mut time_l:Vec<f64>=Vec::new();
 	let mut event_l:Vec<String>=Vec::new();
 	for i in 0..rpline.len(){
 		if rpline[i].is_empty(){
 			continue
 		}
 		let (event,time):(String,String)=(rpline[i].clone().split("@").map(|x|x.to_string()).collect::<Vec<String>>()[0].clone(),rpline[i].clone().split("@").map(|x|x.to_string()).collect::<Vec<String>>()[1].clone());
-		time_l.push(time.clone().split(" ").map(|x|x.to_string()).collect::<Vec<String>>()[3].split(",").map(|x|x.to_string()).collect::<Vec<String>>().join("").parse::<i64>().unwrap());
+		let a=time.clone().split(" ").map(|x|x.to_string()).collect::<Vec<String>>()[3].split(",").map(|x|x.to_string()).collect::<Vec<String>>().join("").parse::<f64>().unwrap();
+		let b=((time.clone().split(" ").map(|x|x.to_string()).collect::<Vec<String>>()[5].split(",").map(|x|x.to_string()).collect::<Vec<String>>().join("").parse::<i32>().unwrap()/100_000_000)as f64)/10.0;
+		time_l.push(a+b);
 		event_l.push(event);//later use
 	}
-	let mut reft_l:Vec<i64>=Vec::new();//refacted time list
-	reft_l.push(0);
+	let mut reft_l:Vec<f64>=Vec::new();//refacted time list
+	reft_l.push(0.0);
 	for i in 1..time_l.len(){
 		reft_l.push(time_l[i]-time_l[i-1]);
 	}
@@ -48,7 +50,7 @@ fn refactor(){
 	//now merge together
 	let mut finale:Vec<String>=Vec::new();
 	for i in 0..event_l.len(){
-		finale.push(format!("{}:{}",reft_l[i].to_string(),event_l[i].clone()));
+		finale.push(format!("{}:{}",((reft_l[i]*10.0).ceil()/10.0).to_string(),event_l[i].clone()));
 	}//now write back into the file
 	fs::write("osracg_data.txt",finale.join("\n"));
 }
