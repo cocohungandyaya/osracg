@@ -5,3 +5,6 @@ Full name:Os recorder action code generator
 
 ## Progress Log:
 21 Nov 2026:Done the core part
+
+## Project Direction:
+core->refactor->generator(involved env)->osracg(involved env)->gui(tkinter)
