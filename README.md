@@ -8,3 +8,4 @@ Full name:Os recorder action code generator
 
 ## Project Direction:
 core->refactor->generator(involved env)->osracg(involved env)(CLI)->gui(tkinter)
+*the refactor and generator both embed into the osracg(CLI)
