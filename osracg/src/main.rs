@@ -54,6 +54,53 @@ fn refactor(){
 	}//now write back into the file
 	fs::write("osracg_data.txt",finale.join("\n"));
 }
+fn generator(types:String,name:String){
+	let raw:String=fs::read_to_string("osracg_data.txt");
+	let raw_l:Vec<String>=raw.clone().split("\n").map(|x|x.to_string()).collect::<Vec<String>>();
+	let mut d_l:Vec<f64>=Vec::new();
+	let mut a_l:Vec<String>=Vec::new();
+	let mut p_l:Vec<String>=Vec::new();
+	for i in raw_l{
+		if !i.is_empty(){
+			d_l.push(i.clone().split(":").map(|x|x.to_string()).collect::<Vec<String>>()[0].clone().parse::<f64>().unwrap());
+			a_l.push(i.clone().split(":").map(|x|x.to_string()).collect::<Vec<String>>()[1].clone());
+			p_l.push(i.clone().split(":").map(|x|x.to_string()).collect::<Vec<String>>()[2].clone());
+		}
+	}
+	if types=="python"{
+		let mut finale:Vec<String>=Vec::new();
+		finale.push(format!("import pyautogui as py;\ndef {}():\n",name.clone()));
+		for i in 0..d_l.len(){
+		/*
+		KeyPress(Key),
+		KeyRelease(Key),
+		ButtonPress(Button),
+		ButtonRelease(Button),
+		MouseMove {
+			x: f64,
+			y: f64,
+			},
+		Wheel {
+			delta_x: i64,
+			delta_y: i64,
+		},
+		*/
+			if p_l[i].contains("Unknown"){continue}
+			if a_l[i]=="KeyPress"{
+				//here start mapping out
+			}else if a_l[i]=="KeyRelease"{
+				//here start mapping out
+			}else if a_l[i]=="ButtonPress"{
+				//here start mapping out
+			}else if a_l[i]=="ButtonRelease"{
+				//here start mapping out
+			}else if a_l[i]=="MouseMove"{
+				//here start mapping out
+			}
+		}
+	}
+}
 fn main(){
 	refactor();
+	generator("python".to_string(),"testing".to_string());
 }
