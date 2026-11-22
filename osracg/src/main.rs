@@ -3,6 +3,7 @@ fn refactor(){
 	let raw:String=fs::read_to_string("osracg_data.txt").unwrap();
 	let mut rpline:Vec<String>=raw.clone().split("\n").map(|x|x.to_string()).collect::<Vec<String>>();
 	let mut time_l:Vec<f64>=Vec::new();
+	let mut time_n:Vec<f64>=Vec::new();
 	let mut event_l:Vec<String>=Vec::new();
 	for i in 0..rpline.len(){
 		if rpline[i].is_empty(){
@@ -10,14 +11,20 @@ fn refactor(){
 		}
 		let (event,time):(String,String)=(rpline[i].clone().split("@").map(|x|x.to_string()).collect::<Vec<String>>()[0].clone(),rpline[i].clone().split("@").map(|x|x.to_string()).collect::<Vec<String>>()[1].clone());
 		let a=time.clone().split(" ").map(|x|x.to_string()).collect::<Vec<String>>()[3].split(",").map(|x|x.to_string()).collect::<Vec<String>>().join("").parse::<f64>().unwrap();
-		let b=((time.clone().split(" ").map(|x|x.to_string()).collect::<Vec<String>>()[5].split(",").map(|x|x.to_string()).collect::<Vec<String>>().join("").parse::<i32>().unwrap()/100_000_000)as f64)/10.0;
-		time_l.push(a+b);
+		let b=time.clone().split(" ").map(|x|x.to_string()).collect::<Vec<String>>()[5].split(",").map(|x|x.to_string()).collect::<Vec<String>>().join("").parse::<f64>().unwrap();
+		time_l.push(a);
+		time_n.push(b);
 		event_l.push(event);//later use
 	}
 	let mut reft_l:Vec<f64>=Vec::new();//refacted time list
 	reft_l.push(0.0);
 	for i in 1..time_l.len(){
-		reft_l.push(time_l[i]-time_l[i-1]);
+		let mut tempbruh:f64=(((999999999-time_n[i-1]as i64)+time_n[i]as i64)as f64/1000000000.0);
+		if tempbruh>=1.0{
+			tempbruh=((tempbruh*1000000000.0)as i64-1000000000)as f64/1000000000.0;
+		}
+		println!("{}",tempbruh);
+		reft_l.push((time_l[i]-time_l[i-1])+tempbruh);
 	}
 	/*
 	KeyPress(Key),
@@ -50,12 +57,12 @@ fn refactor(){
 	//now merge together
 	let mut finale:Vec<String>=Vec::new();
 	for i in 0..event_l.len(){
-		finale.push(format!("{}:{}",((reft_l[i]*10.0).ceil()/10.0).to_string(),event_l[i].clone()));
+		finale.push(format!("{}:{}",(reft_l[i]).to_string(),event_l[i].clone()));
 	}//now write back into the file
 	fs::write("osracg_data.txt",finale.join("\n"));
 }
 fn generator(types:String,name:String){
-	let raw:String=fs::read_to_string("osracg_data.txt");
+	let raw:String=fs::read_to_string("osracg_data.txt").unwrap();
 	let raw_l:Vec<String>=raw.clone().split("\n").map(|x|x.to_string()).collect::<Vec<String>>();
 	let mut d_l:Vec<f64>=Vec::new();
 	let mut a_l:Vec<String>=Vec::new();
