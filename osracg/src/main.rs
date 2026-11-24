@@ -102,7 +102,7 @@ fn generator(types:String,name:String){
 			if p_l[i].contains("Unknown"){continue}
 			hid_d=(((hid_d*1000000000.0)as i64 +(d_l[i]*1000000000.0)as i64)as f64)/1000000000.0;
 			if a_l[i]=="KeyPress"{
-				if i-1>=0&& !(a_l[i-1]=="KeyPress"||a_l[i-1]=="KeyRelease"){
+				if i>0&& !(a_l[i-1]=="KeyPress"||a_l[i-1]=="KeyRelease"){
 					finale.push(format!("\ttime.sleep({});\n",hid_d));
 				}
 				let mut temp_p:String=p_l[i].clone();
@@ -110,7 +110,7 @@ fn generator(types:String,name:String){
 				finale.push(format!("\tpy.keyDown(\"{}\");\n",temp_p.clone()));
 				hid_d=0.0;
 			}else if a_l[i]=="KeyRelease"{
-				if i-1>=0&& !(a_l[i-1]=="KeyPress"||a_l[i-1]=="KeyRelease"){
+				if i>0&& !(a_l[i-1]=="KeyPress"||a_l[i-1]=="KeyRelease"){
 					finale.push(format!("\ttime.sleep({});\n",hid_d));
 				}
 				let mut temp_p:String=p_l[i].clone();
@@ -143,7 +143,7 @@ fn main(){
 	let args=env::args().collect::<Vec<_>>();
 	if args.len()==2{
 		if "-v"==args[1]{
-			print!("Current osracg version:v0.1.4");
+			print!("Current osracg version:v0.1.5");
 		}else if "-h"==args[1]{
 			//change it if windows
 			print!("To use osracg:\n\t./osracg [-v(get version)||-h(get help)||your_module_name]")
@@ -162,5 +162,5 @@ fn main(){
 			}else{eprint!("have error with the osracg_core component,if you have time please report this to the github issue");exit(0);}
 		}
 	//if windows change this
-	}else{eprint!("Error,for osracg v0.1.4 please use the following param: ./osracg your_module_name");exit(1);}
+	}else{eprint!("Error,for osracg v0.1.5 please use the following param: ./osracg your_module_name");exit(1);}
 }
