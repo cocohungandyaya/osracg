@@ -143,7 +143,7 @@ fn main(){
 	let args=env::args().collect::<Vec<_>>();
 	if args.len()==2{
 		if "-v"==args[1]{
-			print!("Current osracg version:v0.1.2");
+			print!("Current osracg version:v0.1.3");
 		}else if "-h"==args[1]{
 			//change it if windows
 			print!("To use osracg:\n\t./osracg [-v(get version)||-h(get help)||your_module_name]")
@@ -162,5 +162,5 @@ fn main(){
 			}else{eprint!("have error with the osracg_core component,if you have time please report this to the github issue");exit(0);}
 		}
 	//if windows change this
-	}else{eprint!("Error,for osracg v0.1.2 please use the following param: ./osracg your_module_name");exit(1);}
+	}else{eprint!("Error,for osracg v0.1.3 please use the following param: ./osracg your_module_name");exit(1);}
 }
