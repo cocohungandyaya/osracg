@@ -17,12 +17,19 @@ core->refactor->generator(involved env)->osracg(involved env)(CLI)->gui(tkinter)
 
 ## Version Notes
 v0.1.0: First edition,support for generation of python code and naming your own module
+
 v0.1.1: Smoothen the typing action
+
 v0.1.2: Added -v and -h command for getting current osracg version and helps on how to use
+
 v0.1.3: Patched a bug that when you use -v it auto start recording
+
 v0.1.4: Patched a major bug that will crash whole program
+
 v0.1.5: Bug Patched same as v0.1.4
+
 v0.1.6: Fixed the problems that it cant process the control key
+
 v0.1.7: Trimmed out useless mousemovements before any actual clicking and add support for AltGr
 
 # Quick Start
