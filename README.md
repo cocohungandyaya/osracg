@@ -46,7 +46,7 @@ Requirements:python installed,pip installed pyautogui
   ```terminal
   osracg.exe your_module_name
   ```
-3. it will auto perform Alt-Tab so remember to put the page you want to record in the background first
+3. it will auto perform Alt-Tab(This action won't be included in the generated file)so remember to put the page you want to record in the background first
 4. After you done recording press F12 to end the recording and it will auto generate a file call osracg.py
 5. To use the code file,you can rather run it directly or drop it to the same folder next to your python code file,to use it:
 ```py
