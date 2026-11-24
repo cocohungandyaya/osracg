@@ -65,6 +65,6 @@ Linux:
 ```
 Windows:
 ```terminal
-osracg -v
-osracg -h
+osracg.exe -v
+osracg.exe -h
 ```
