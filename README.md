@@ -40,6 +40,6 @@ Requirements:python installed,pip installed pyautogui
 import osracg
 osracg.your_module_name()
 ```
-For details on what keys osraccg support,check out [Support_keys.txt](https://github.com/cocohungandyaya/osracg/blob/main/Support_Keys.txt)
+For details on what keys osracg support,check out [Support_keys.txt](https://github.com/cocohungandyaya/osracg/blob/main/Support_Keys.txt)
 
 Note:F12(not support for all version because it is used for stop recording) and mouse wheel is not support in current version(v0.1.1)
