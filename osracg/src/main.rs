@@ -126,7 +126,7 @@ fn generator(types:String,name:String){
 				finale.push(format!("\tpy.mouseUp(button=\"{}\");\n",p_l[i].clone().to_lowercase()));
 				hid_d=0.0;
 			}else if a_l[i]=="MouseMove"{
-				if i+1<d_l.len()&&(a_l[i+1]=="ButtonPress"||a_l[i+1]=="ButtonRelease"||a_l[i+1]=="KeyPress"||a_l[i+1]=="KeyRelease"){
+				if i+1<d_l.len()&&(a_l[i+1]=="ButtonPress"||a_l[i+1]=="ButtonRelease"){
 					finale.push(format!("\ttime.sleep({});\n",hid_d));
 					finale.push(format!("\tpy.moveTo({});\n",p_l[i].clone()));
 					hid_d=0.0;
@@ -143,10 +143,10 @@ fn main(){
 	let args=env::args().collect::<Vec<_>>();
 	if args.len()==2{
 		if "-v"==args[1]{
-			print!("Current osracg version:v0.1.6");
+			print!("Current osracg version:v0.1.7");
 		}else if "-h"==args[1]{
 			//change it if windows
-			print!("To use osracg:\n\t./osracg [-v(get version)||-h(get help)||your_module_name]")
+			print!("To use osracg:\n\tosracg.exe [-v(get version)||-h(get help)||your_module_name]")
 		}else{
 			println!("record started,processing \"Alt+Tab\"");
 			enigo.key(Key::Alt,Press);
@@ -154,7 +154,7 @@ fn main(){
 			enigo.key(Key::Tab,Release);
 			enigo.key(Key::Alt,Release);
 			//change it if windows
-			let result=Command::new("./osracg_core").status().unwrap();
+			let result=Command::new("osracg_core.exe").status().unwrap();
 			if result.success(){
 				refactor();
 				generator("python".to_string(),args[1].to_string());
@@ -162,5 +162,5 @@ fn main(){
 			}else{eprint!("have error with the osracg_core component,if you have time please report this to the github issue");exit(0);}
 		}
 	//if windows change this
-	}else{eprint!("Error,for osracg v0.1.6 please use the following param: ./osracg your_module_name");exit(1);}
+	}else{eprint!("Error,for osracg v0.1.7 please use the following param: osracg.exe your_module_name");exit(1);}
 }
