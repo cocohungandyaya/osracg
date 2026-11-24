@@ -146,7 +146,7 @@ fn main(){
 			print!("Current osracg version:v0.1.7");
 		}else if "-h"==args[1]{
 			//change it if windows
-			print!("To use osracg:\n\tosracg.exe [-v(get version)||-h(get help)||your_module_name]")
+			print!("To use osracg:\n\t./osracg [-v(get version)||-h(get help)||your_module_name]")
 		}else{
 			println!("record started,processing \"Alt+Tab\"");
 			enigo.key(Key::Alt,Press);
@@ -154,7 +154,7 @@ fn main(){
 			enigo.key(Key::Tab,Release);
 			enigo.key(Key::Alt,Release);
 			//change it if windows
-			let result=Command::new("osracg_core.exe").status().unwrap();
+			let result=Command::new("./osracg_core").status().unwrap();
 			if result.success(){
 				refactor();
 				generator("python".to_string(),args[1].to_string());
@@ -162,5 +162,5 @@ fn main(){
 			}else{eprint!("have error with the osracg_core component,if you have time please report this to the github issue");exit(0);}
 		}
 	//if windows change this
-	}else{eprint!("Error,for osracg v0.1.7 please use the following param: osracg.exe your_module_name");exit(1);}
+	}else{eprint!("Error,for osracg v0.1.7 please use the following param: ./osracg your_module_name");exit(1);}
 }
