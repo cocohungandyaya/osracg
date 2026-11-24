@@ -76,7 +76,7 @@ fn generator(types:String,name:String){
 	}
 	if types=="python"{
 		let mut finale:Vec<String>=Vec::new();
-		finale.push(format!("import pyautogui as py;\ndef {}():\n",name.clone()));
+		finale.push(format!("import pyautogui as py;\nimport time;\ndef {}():\n",name.clone()));
 		for i in 0..d_l.len(){
 		/*
 		KeyPress(Key),
