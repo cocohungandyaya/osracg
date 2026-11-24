@@ -162,5 +162,6 @@ fn main(){
 				println!("build success!");
 			}else{eprint!("have error with the osracg_core component,if you have time please report this to the github issue");exit(0);}
 		}
-	}else{eprint!("Error,for osracg v0.1.2 please use the following param:./osracg module_name_you_want");exit(1);}
+	//if windows change this
+	}else{eprint!("Error,for osracg v0.1.2 please use the following param: ./osracg your_module_name");exit(1);}
 }
