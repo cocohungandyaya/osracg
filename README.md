@@ -19,6 +19,7 @@ core->refactor->generator(involved env)->osracg(involved env)(CLI)->gui(tkinter)
 v0.1.0: First edition,support for generation of python code and naming your own module
 v0.1.1: Smoothen the typing action
 v0.1.2: Added -v and -h command for getting current osracg version and helps on how to use
+v0.1.3: Patched a bug that when you use -v it auto start recording
 
 # Quick Start
 Requirements:python installed,pip installed pyautogui
