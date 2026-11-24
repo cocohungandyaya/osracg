@@ -10,7 +10,7 @@ Full name:Os recorder action code generator
 
 22 Nov 2026:Done mapping out keys that will support and initialize the function generator,because i want ~play minecraft~ and today go hiking not much time to code so ~that is it today~ fahhh i spend 2 hours on fixing the refactor to support nanoseconds(which will be used for execution time matching the recording time duration between each action),no time for minecraft today :(
 
-24 Nov 2026:Completer the first ever release of osracg(v0.1.0) which currently only support naming your own module and generating python code file
+24 Nov 2026:Completer the first ever release of osracg(v0.1.0) which currently only support naming your own module and generating python code file,also what i do is i make osracg only generate useful movements,making it run more smooth and matching the real timing when you click
 ## Project Direction:
 core->refactor->generator(involved env)->osracg(involved env)(CLI)->gui(tkinter)
 *the refactor and generator both embed into the osracg(CLI)
