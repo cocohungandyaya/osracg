@@ -106,7 +106,7 @@ fn generator(types:String,name:String){
 					finale.push(format!("\ttime.sleep({});\n",hid_d));
 				}
 				let mut temp_p:String=p_l[i].clone();
-				temp_p=temp_p.split("Arrow").collect::<Vec<_>>().join("").split("Meta").collect::<Vec<_>>().join("win").split("BackQuote").collect::<Vec<_>>().join("`").split("Minus").collect::<Vec<_>>().join("-").split("Equal").collect::<Vec<_>>().join("=").split("LeftBracket").collect::<Vec<_>>().join("[").split("RightBracket").collect::<Vec<_>>().join("]").split("SemiColon").collect::<Vec<_>>().join(";").split("Quote").collect::<Vec<_>>().join("'").split("BackSlash").collect::<Vec<_>>().join("\\").split("Comma").collect::<Vec<_>>().join(",").split("Dot").collect::<Vec<_>>().join(".").split("Slash").collect::<Vec<_>>().join("/").split("Function").collect::<Vec<_>>().join("fn").split("Key").collect::<Vec<_>>().join("").split("Num").collect::<Vec<_>>().join("").to_string().to_lowercase();
+				temp_p=temp_p.split("Arrow").collect::<Vec<_>>().join("").split("Meta").collect::<Vec<_>>().join("win").split("BackQuote").collect::<Vec<_>>().join("`").split("Minus").collect::<Vec<_>>().join("-").split("Equal").collect::<Vec<_>>().join("=").split("LeftBracket").collect::<Vec<_>>().join("[").split("RightBracket").collect::<Vec<_>>().join("]").split("SemiColon").collect::<Vec<_>>().join(";").split("Quote").collect::<Vec<_>>().join("'").split("BackSlash").collect::<Vec<_>>().join("\\").split("Comma").collect::<Vec<_>>().join(",").split("Dot").collect::<Vec<_>>().join(".").split("Slash").collect::<Vec<_>>().join("/").split("Function").collect::<Vec<_>>().join("fn").split("Key").collect::<Vec<_>>().join("").split("Num").collect::<Vec<_>>().join("").split("Control").collect::<Vec<_>>().join("ctrl").to_string().to_lowercase();
 				finale.push(format!("\tpy.keyDown(\"{}\");\n",temp_p.clone()));
 				hid_d=0.0;
 			}else if a_l[i]=="KeyRelease"{
@@ -114,7 +114,7 @@ fn generator(types:String,name:String){
 					finale.push(format!("\ttime.sleep({});\n",hid_d));
 				}
 				let mut temp_p:String=p_l[i].clone();
-				temp_p=temp_p.split("Arrow").collect::<Vec<_>>().join("").split("Meta").collect::<Vec<_>>().join("win").split("BackQuote").collect::<Vec<_>>().join("`").split("Minus").collect::<Vec<_>>().join("-").split("Equal").collect::<Vec<_>>().join("=").split("LeftBracket").collect::<Vec<_>>().join("[").split("RightBracket").collect::<Vec<_>>().join("]").split("SemiColon").collect::<Vec<_>>().join(";").split("Quote").collect::<Vec<_>>().join("'").split("BackSlash").collect::<Vec<_>>().join("\\").split("Comma").collect::<Vec<_>>().join(",").split("Dot").collect::<Vec<_>>().join(".").split("Slash").collect::<Vec<_>>().join("/").split("Function").collect::<Vec<_>>().join("fn").split("Key").collect::<Vec<_>>().join("").split("Num").collect::<Vec<_>>().join("").to_string().to_lowercase();
+				temp_p=temp_p.split("Arrow").collect::<Vec<_>>().join("").split("Meta").collect::<Vec<_>>().join("win").split("BackQuote").collect::<Vec<_>>().join("`").split("Minus").collect::<Vec<_>>().join("-").split("Equal").collect::<Vec<_>>().join("=").split("LeftBracket").collect::<Vec<_>>().join("[").split("RightBracket").collect::<Vec<_>>().join("]").split("SemiColon").collect::<Vec<_>>().join(";").split("Quote").collect::<Vec<_>>().join("'").split("BackSlash").collect::<Vec<_>>().join("\\").split("Comma").collect::<Vec<_>>().join(",").split("Dot").collect::<Vec<_>>().join(".").split("Slash").collect::<Vec<_>>().join("/").split("Function").collect::<Vec<_>>().join("fn").split("Key").collect::<Vec<_>>().join("").split("Num").collect::<Vec<_>>().join("").split("Control").collect::<Vec<_>>().join("ctrl").to_string().to_lowercase();
 				finale.push(format!("\tpy.keyUp(\"{}\");\n",temp_p.clone()));
 				hid_d=0.0;
 			}else if a_l[i]=="ButtonPress"{
@@ -143,7 +143,7 @@ fn main(){
 	let args=env::args().collect::<Vec<_>>();
 	if args.len()==2{
 		if "-v"==args[1]{
-			print!("Current osracg version:v0.1.5");
+			print!("Current osracg version:v0.1.6");
 		}else if "-h"==args[1]{
 			//change it if windows
 			print!("To use osracg:\n\t./osracg [-v(get version)||-h(get help)||your_module_name]")
@@ -162,5 +162,5 @@ fn main(){
 			}else{eprint!("have error with the osracg_core component,if you have time please report this to the github issue");exit(0);}
 		}
 	//if windows change this
-	}else{eprint!("Error,for osracg v0.1.5 please use the following param: ./osracg your_module_name");exit(1);}
+	}else{eprint!("Error,for osracg v0.1.6 please use the following param: ./osracg your_module_name");exit(1);}
 }
