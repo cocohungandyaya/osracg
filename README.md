@@ -10,7 +10,7 @@ Full name:Os recorder action code generator
 
 22 Nov 2026:Done mapping out keys that will support and initialize the function generator,because i want ~play minecraft~ and today go hiking not much time to code so ~that is it today~ fahhh i spend 2 hours on fixing the refactor to support nanoseconds(which will be used for execution time matching the recording time duration between each action),no time for minecraft today :(
 
-24 Nov 2026:Completer the first ever release of osracg(v0.1.0) and the second release(v0.1.1) which currently only support naming your own module and generating python code file,also what i do is i make osracg only generate useful movements,making it run more smooth and matching the real timing when you click,also third,fourth fifth and sixth release(v0.1.2,v0.1.3,v0.1.4,v0.1.5)
+24 Nov 2026:Completer the first ever release of osracg(v0.1.0) and the second release(v0.1.1) which currently only support naming your own module and generating python code file,also what i do is i make osracg only generate useful movements,making it run more smooth and matching the real timing when you click,also third,fourth,fifth,sixth and seventh release(v0.1.2,v0.1.3,v0.1.4,v0.1.5,v0.1.6)
 ## Project Direction:
 core->refactor->generator(involved env)->osracg(involved env)(CLI)->gui(tkinter)
 *the refactor and generator both embed into the osracg(CLI)
@@ -22,6 +22,7 @@ v0.1.2: Added -v and -h command for getting current osracg version and helps on 
 v0.1.3: Patched a bug that when you use -v it auto start recording
 v0.1.4: Patched a major bug that will crash whole program
 v0.1.5: Bug Patched same as v0.1.4
+v0.1.6: Fixed the problems that it cant process the control key
 
 # Quick Start
 Requirements:python installed,pip installed pyautogui
@@ -46,7 +47,7 @@ osracg.your_module_name()
 ```
 For details on what keys osracg support,check out [Support_keys](https://github.com/cocohungandyaya/osracg/blob/main/Support_Keys.txt)
 
-Note:F12(not support for all version because it is used for stop recording) and mouse wheel is not support in current version(v0.1.5)
+Note:F12(not support for all version because it is used for stop recording) and mouse wheel is not support in current version(v0.1.6)
 
 ## Additional command:
 Linux:
