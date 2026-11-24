@@ -55,7 +55,7 @@ osracg.your_module_name()
 ```
 For details on what keys osracg support,check out [Support_keys](https://github.com/cocohungandyaya/osracg/blob/main/Support_Keys.txt)
 
-Note:F12(not support for all version because it is used for stop recording) and mouse wheel is not support in current version(v0.1.7)
+Note:F12(not support for all version because it is used for stop recording) and mouse wheel is not support in current version(v0.1.7),also it will auto cover old osracg.py if there is any
 
 ## Additional command:
 Linux:
