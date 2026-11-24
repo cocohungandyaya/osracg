@@ -1,5 +1,5 @@
 # osracg
-A tools(CLI/GUI) to auto generate python/rust code file after recorded os keyboard and mouse actions
+A tool (CLI/GUI) to auto generate python/rust code file after recorded os keyboard and mouse actions
 
 The file got generated is a standalone file which you can choose to rather import or run it
 
