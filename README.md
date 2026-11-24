@@ -17,6 +17,7 @@ core->refactor->generator(involved env)->osracg(involved env)(CLI)->gui(tkinter)
 
 ## Version Notes
 v0.1.0: First edition,support for generation of python code and naming your own module
+v0.1.1: Smoothen the typing action
 
 # Quick Start
 Requirements:python installed,pip installed pyautogui
@@ -41,4 +42,4 @@ osracg.your_module_name()
 ```
 For details on what keys osraccg support,check out [Support_keys.txt](https://github.com/cocohungandyaya/osracg/blob/main/Support_Keys.txt)
 
-Note:F12(not support for all version because it is used for stop recording) and mouse wheel is not support in current version(v0.1.0)
+Note:F12(not support for all version because it is used for stop recording) and mouse wheel is not support in current version(v0.1.1)
