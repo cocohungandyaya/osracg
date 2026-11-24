@@ -15,6 +15,9 @@ Full name:Os recorder action code generator
 core->refactor->generator(involved env)->osracg(involved env)(CLI)->gui(tkinter)
 *the refactor and generator both embed into the osracg(CLI)
 
+## Version Notes
+v0.1.0: First edition,support for generation of python code and naming your own module
+
 # Quick Start
 Requirements:python installed,pip installed pyautogui
 
