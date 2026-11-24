@@ -142,17 +142,25 @@ fn main(){
 	let mut enigo = Enigo::new(&Settings::default()).unwrap();
 	let args=env::args().collect::<Vec<_>>();
 	if args.len()==2{
-		//here is default linux,if window change it
-		println!("record started,processing \"Alt+Tab\"");
-		enigo.key(Key::Alt,Press);
-		enigo.key(Key::Tab,Press);
-		enigo.key(Key::Tab,Release);
-		enigo.key(Key::Alt,Release);
-		let result=Command::new("./osracg_core").status().unwrap();
-		if result.success(){
-			refactor();
-			generator("python".to_string(),args[1].to_string());
-			println!("build success!");
-		}else{eprint!("have error with the osracg_core component,if you have time please report this to the github issue");exit(0);}
-	}else{eprint!("Error,for osracg v0.1.0 please use the following param:./osracg module_name_you_want || osracg.exe module_name_you_want");exit(1);}
+		if "-v"==args[1]{
+			print!("Current osracg version:v0.1.2");
+		}
+		if "-h"==args[1]{
+			//change it if windows
+			print!("To use osracg:\n\t./osracg [-v(get version)||-h(get help)||your_module_name]")
+		}else{
+			println!("record started,processing \"Alt+Tab\"");
+			enigo.key(Key::Alt,Press);
+			enigo.key(Key::Tab,Press);
+			enigo.key(Key::Tab,Release);
+			enigo.key(Key::Alt,Release);
+			//change it if windows
+			let result=Command::new("./osracg_core").status().unwrap();
+			if result.success(){
+				refactor();
+				generator("python".to_string(),args[1].to_string());
+				println!("build success!");
+			}else{eprint!("have error with the osracg_core component,if you have time please report this to the github issue");exit(0);}
+		}
+	}else{eprint!("Error,for osracg v0.1.2 please use the following param:./osracg module_name_you_want");exit(1);}
 }
