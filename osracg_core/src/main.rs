@@ -1,3 +1,4 @@
+#![windows_subsystem = "windows"]
 use rdev::{listen, Event};
 use rdev::EventType::KeyPress;
 use std::fs;
