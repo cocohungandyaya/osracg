@@ -144,7 +144,7 @@ fn main(){
 		enigo.key(Key::Tab,Press);
 		enigo.key(Key::Tab,Release);
 		enigo.key(Key::Alt,Release);
-		let result=Command::new("osracg_core.exe").status().unwrap();
+		let result=Command::new("./osracg_core").status().unwrap();
 		if result.success(){
 			refactor();
 			generator("python".to_string(),args[1].to_string());
