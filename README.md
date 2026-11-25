@@ -40,3 +40,5 @@ Windows:
 osracg.exe -v
 osracg.exe -h
 ```
+
+For details on what is new in each version check out [Version Note](https://github.com/cocohungandyaya/osracg/blob/main/Version%20Note.txt)
