@@ -4,34 +4,6 @@ A tool (CLI/GUI) to auto generate python/rust code file after recorded os keyboa
 The file got generated is a standalone file which you can choose to rather import or run it
 
 Full name:Os recorder action code generator
-
-## Progress Log:
-21 Nov 2026:Done the core part(press F12 to end recording),i also done the refactor part which format everyting into Duration:Action:param,also i make adjustment so then it read 0.1 seconds instead of 1 full seconds
-
-22 Nov 2026:Done mapping out keys that will support and initialize the function generator,because i want ~play minecraft~ and today go hiking not much time to code so ~that is it today~ fahhh i spend 2 hours on fixing the refactor to support nanoseconds(which will be used for execution time matching the recording time duration between each action),no time for minecraft today :(
-
-24 Nov 2026:Completer the first ever release of osracg(v0.1.0) and the second release(v0.1.1) which currently only support naming your own module and generating python code file,also what i do is i make osracg only generate useful movements,making it run more smooth and matching the real timing when you click,also third,fourth,fifth,sixth,seventh and eighth release(v0.1.2,v0.1.3,v0.1.4,v0.1.5,v0.1.6,v0.1.7)
-## Project Direction:
-core->refactor->generator(involved env)->osracg(involved env)(CLI)->gui(tkinter)
-*the refactor and generator both embed into the osracg(CLI)
-
-## Version Notes
-v0.1.0: First edition,support for generation of python code and naming your own module
-
-v0.1.1: Smoothen the typing action
-
-v0.1.2: Added -v and -h command for getting current osracg version and helps on how to use
-
-v0.1.3: Patched a bug that when you use -v it auto start recording
-
-v0.1.4: Patched a major bug that will crash whole program
-
-v0.1.5: Bug Patched same as v0.1.4
-
-v0.1.6: Fixed the problems that it cant process the control key
-
-v0.1.7: Trimmed out useless mousemovements before any actual clicking and add support for AltGr
-
 # Quick Start
 Requirements:python installed,pip installed pyautogui
 
@@ -40,22 +12,22 @@ Requirements:python installed,pip installed pyautogui
 
   Linux:
   ```terminal
-  ./osracg your_module_name
+  ./osracg your_file_name
   ```
   windows:
   ```terminal
-  osracg.exe your_module_name
+  osracg.exe your_file_name
   ```
 3. it will auto perform Alt-Tab(This action won't be included in the generated file)so remember to put the page you want to record in the background first
-4. After you done recording press F12 to end the recording and it will auto generate a file call osracg.py
+4. After you done recording press F12 to end the recording and it will auto generate a file call your_file_name.py
 5. To use the code file,you can rather run it directly or drop it to the same folder next to your python code file,to use it:
 ```py
-import osracg
-osracg.your_module_name()
+import your_file_name
+your_file_name.osracg()
 ```
 For details on what keys osracg support,check out [Support_keys](https://github.com/cocohungandyaya/osracg/blob/main/Support_Keys.txt)
 
-Note:F12(not support for all version because it is used for stop recording) and mouse wheel is not support in current version(v0.1.7),also it will auto overwrite old osracg.py if there is any
+### Note that mouse Wheel is not supported
 
 ## Additional command:
 Linux:
