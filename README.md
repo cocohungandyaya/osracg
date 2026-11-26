@@ -14,11 +14,11 @@ Requirements:python installed,pip installed pyautogui
   ```terminal
   ./osracg your_file_name
   ```
-  windows:
+  windows(CMD):
   ```terminal
   osracg.exe your_file_name
   ```
-  Or
+  windows(Powershell):
   ```powershell
   .\osracg your_file_name
   ```
@@ -39,12 +39,12 @@ Linux:
 ./osracg -v
 ./osracg -h
 ```
-Windows:
+Windows(CMD):
 ```terminal
 osracg.exe -v
 osracg.exe -h
 ```
- Or
+Windows(PowerShell):
 ```powershell
 .\osracg -v
 .\osracg -h
