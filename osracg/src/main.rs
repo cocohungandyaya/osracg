@@ -6,6 +6,7 @@ use enigo::{
     Enigo, Key, Keyboard, Mouse, Settings,
 };
 use std::process::{Command,exit};
+const core:&[u8]=include_bytes!("osracg_core");
 fn refactor(){
 	let raw:String=fs::read_to_string("osracg_data.txt").unwrap();
 	let mut rpline:Vec<String>=raw.clone().split("\n").map(|x|x.to_string()).collect::<Vec<String>>();
@@ -143,11 +144,24 @@ fn main(){
 	let args=env::args().collect::<Vec<_>>();
 	if args.len()==2{
 		if "-v"==args[1]{
-			print!("Current osracg version:v0.1.9");
+			print!("Current osracg version:v0.2.0");
 		}else if "-h"==args[1]{
 			//change it if windows
-			print!("To use osracg:\n\t./osracg [-v(get version) || -h(get help) || your_file_name]")
+			print!("To use osracg:\n\t./osracg [-v(get version) || -h(get help) || your_file_name]");
 		}else{
+			print!("Extracting:osracg_core\n");
+			fs::write("osracg_core",core);
+			print!("Done!\n");
+			print!("Now getting permission...\n");
+			let result=Command::new("chmod").args(["+x","osracg_core"]).status().unwrap();
+			if !result.success(){
+				eprint!("Have problems with getting permission,err report this to github if you have time please :)\n");
+				eprint!("Now removing the core component...\n");
+				fs::remove_file("osracg_core").unwrap();
+				eprint!("Done!");
+				exit(1);
+			}
+			print!("Done!\n");
 			println!("record started,processing \"Alt+Tab\"");
 			enigo.key(Key::Alt,Press);
 			enigo.key(Key::Tab,Press);
@@ -159,7 +173,16 @@ fn main(){
 				refactor();
 				generator("python".to_string(),args[1].to_string());
 				println!("build success!");
-			}else{eprint!("have error with the osracg_core component,if you have time please report this to the github issue");exit(0);}
+				print!("Now removing the core component...\n");
+				fs::remove_file("osracg_core").unwrap();
+				print!("Done!");
+			}else{
+				eprint!("have error with the osracg_core component,if you have time please report this to the github issue\n");
+				eprint!("Now removing the core component...\n");
+				fs::remove_file("osracg_core").unwrap();
+				eprint!("Done!");
+				exit(1);
+			}
 		}
 	//if windows change this
 	}else{eprint!("Error,osracg use the following param:\n\t./osracg [-v(get version) || -h(get help) || your_file_name]");exit(1);}
