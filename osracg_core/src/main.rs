@@ -7,6 +7,7 @@ use rdev::Key::*;
 use std::time::SystemTime;
 use std::thread;
 use std::time::Duration;
+use std::io::{Write,BufWriter};
 
 // for what will do here is that everytime detect the uhh action and then open the file and edit and close the file that is it and pass to the generator which gerneate the file to the target location
 fn main(){
@@ -23,15 +24,15 @@ fn callback(event: Event) {
 		if k==F12{
 			exit(0)
 		}else{
-		let mut temp:String=fs::read_to_string("osracg_data.txt").unwrap();
-		temp.push_str(format!("{:?}@{:?}\n",event.event_type,SystemTime::now()).as_str());
-		fs::write("osracg_data.txt",temp);
+		let file=fs::OpenOptions::new().create(true).append(true).open("osracg_data.txt").unwrap();
+		let mut writer=BufWriter::new(file);
+		write!(writer,"{}",format!("{:?}@{:?}\n",event.event_type,SystemTime::now()).as_str()).unwrap();
 		}
 	},
 	_=>{
-		let mut temp:String=fs::read_to_string("osracg_data.txt").unwrap();
-		temp.push_str(format!("{:?}@{:?}\n",event.event_type,SystemTime::now()).as_str());
-		fs::write("osracg_data.txt",temp);
+		let file=fs::OpenOptions::new().create(true).append(true).open("osracg_data.txt").unwrap();
+		let mut writer=BufWriter::new(file);
+		write!(writer,"{}",format!("{:?}@{:?}\n",event.event_type,SystemTime::now()).as_str()).unwrap();
 	}
 	}
 }
