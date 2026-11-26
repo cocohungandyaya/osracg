@@ -144,7 +144,7 @@ fn main(){
 	let args=env::args().collect::<Vec<_>>();
 	if args.len()==2{
 		if "-v"==args[1]{
-			print!("Current osracg version:v0.2.0");
+			print!("Current osracg version:v0.2.1");
 		}else if "-h"==args[1]{
 			//change it if windows
 			print!("To use osracg:\n\t./osracg [-v(get version) || -h(get help) || your_file_name]");
