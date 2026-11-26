@@ -103,7 +103,7 @@ fn generator(types:String,name:String){
 			if p_l[i].contains("Unknown"){continue}
 			hid_d=(((hid_d*1000000000.0)as i64 +(d_l[i]*1000000000.0)as i64)as f64)/1000000000.0;
 			if a_l[i]=="KeyPress"{
-				if i>0&& !(a_l[i-1]=="KeyPress"||a_l[i-1]=="KeyRelease"){
+				if i>0&& !(a_l[i-1]=="KeyPress"||a_l[i-1]=="KeyRelease")||hid_d>=2.0{
 					finale.push(format!("\ttime.sleep({});\n",hid_d));
 				}
 				let mut temp_p:String=p_l[i].clone();
@@ -111,7 +111,7 @@ fn generator(types:String,name:String){
 				finale.push(format!("\tpy.keyDown(\"{}\");\n",temp_p.clone()));
 				hid_d=0.0;
 			}else if a_l[i]=="KeyRelease"{
-				if i>0&& !(a_l[i-1]=="KeyPress"||a_l[i-1]=="KeyRelease"){
+				if i>0&& !(a_l[i-1]=="KeyPress"||a_l[i-1]=="KeyRelease")||hid_d>=2.0{
 					finale.push(format!("\ttime.sleep({});\n",hid_d));
 				}
 				let mut temp_p:String=p_l[i].clone();
