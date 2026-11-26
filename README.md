@@ -18,6 +18,10 @@ Requirements:python installed,pip installed pyautogui
   ```terminal
   osracg.exe your_file_name
   ```
+  Or
+  ```powershell
+  .\osracg your_file_name
+  ```
 3. it will auto perform Alt-Tab(This action won't be included in the generated file)so remember to put the page you want to record in the background first
 4. After you done recording press F12 to end the recording and it will auto generate a file call your_file_name.py
 5. To use the code file,you can rather run it directly or drop it to the same folder next to your python code file,to use it:
@@ -40,7 +44,11 @@ Windows:
 osracg.exe -v
 osracg.exe -h
 ```
-
+ Or
+```powershell
+.\osracg -v
+.\osracg -h
+```
 For details on what is new in each version check out [Version Note](https://github.com/cocohungandyaya/osracg/blob/main/Version%20Note.txt)
 ### Not suggested to rely on holding down a key(e.g.Delete) because the code replay might have small inaccuracy
 Here is a demo video for v0.1.9:[Click Me!](https://youtu.be/BXep_h8a7nY?si=BWVwMDX9v9g2CKTW)
