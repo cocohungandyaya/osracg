@@ -7,7 +7,7 @@ Full name:Os recorder action code generator
 # Quick Start
 Requirements:python installed,pip installed pyautogui
 
-1. Download the release that match your system and unzip it
+1. Download the release that match your system 
 2. Run the osracg with your terminal/CMD opened in the folder
 
   Linux:
