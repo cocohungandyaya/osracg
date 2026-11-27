@@ -11,12 +11,12 @@ Requirements:python installed,pip installed pyautogui
 2. Run the osracg with your terminal/CMD opened in the folder
 
   Linux:
-  ```terminal
-  ./osracg your_file_name
+  ```
+  ./osracg your_file_name [-py(default) || -rs(developing)]
   ```
   Windows:
-  ```powershell
-  .\osracg your_file_name
+  ```
+  .\osracg your_file_name [-py(default) || -rs(developing)]
   ```
 3. it will auto perform Alt-Tab(This action won't be included in the generated file)so remember to put the page you want to record in the background first
 4. After you done recording press F12 to end the recording and it will auto generate a file call your_file_name.py
@@ -31,14 +31,16 @@ For details on what keys osracg support,check out [Support_keys](https://github.
 
 ## Additional command:
 Linux:
-```terminal
+```
 ./osracg -v
 ./osracg -h
+./osracg --upgrade
 ```
 Windows:
-```powershell
+```
 .\osracg -v
 .\osracg -h
+.\osracg --upgrade
 ```
 For details on what is new in each version check out [Version Note](https://github.com/cocohungandyaya/osracg/blob/main/Version%20Note.txt)
 ### Not suggested to rely on holding down a key(e.g.Delete) because the code replay might have small inaccuracy
