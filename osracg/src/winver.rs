@@ -147,7 +147,7 @@ async fn main(){
 	let current_directory:String=env::current_dir().expect("Can't get current directory path!").display().to_string();
 	let cmajor:i32=0;
 	let cminor:i32=3;
-	let cpatch:i32=0;
+	let cpatch:i32=1;
 	let current_version:String=format!("v{}.{}.{}",cmajor,cminor,cpatch);
 	let mut enigo = Enigo::new(&Settings::default()).unwrap();
 	let args=env::args().collect::<Vec<_>>();
