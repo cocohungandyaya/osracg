@@ -137,8 +137,9 @@ fn generator(types:String,name:String,cd:String){
 		finale.push("\nif __name__==\"__main__\":\n\tosracg();".to_string());
 		fs::remove_file("osracg_data.txt").unwrap();
 		fs::write(format!("{}/{}.py",cd.clone(),name.clone()),finale.join(""));
+		println!("build success!");
 	}else if types=="rust"{
-		print!("Still under development!\nIn current version please choose python instead!");
+		print!("Sorry...rust code generation is still under development!\nIn current version please choose python instead!");
 		fs::remove_file("osracg_data.txt").unwrap();
 	}
 }
@@ -150,8 +151,8 @@ async fn main(){
 	}
 	let current_directory:String=env::current_dir().expect("Can't get current directory path!").display().to_string();
 	let cmajor:i32=0;
-	let cminor:i32=2;
-	let cpatch:i32=2;
+	let cminor:i32=3;
+	let cpatch:i32=0;
 	let current_version:String=format!("v{}.{}.{}",cmajor,cminor,cpatch);
 	let mut enigo = Enigo::new(&Settings::default()).unwrap();
 	let args=env::args().collect::<Vec<_>>();
@@ -227,7 +228,6 @@ async fn main(){
 					}
 				}
 				generator(rs.clone(),args[1].to_string(),current_directory.clone());
-				println!("build success!");
 				print!("Now removing the core component...\n");
 				fs::remove_file("osracg_core").unwrap();
 				print!("Done!");
