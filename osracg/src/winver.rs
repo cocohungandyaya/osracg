@@ -63,7 +63,7 @@ fn refactor(){
 	}//now write back into the file
 	fs::write("osracg_data.txt",finale.join("\n"));
 }
-fn generator(types:String,name:String){
+fn generator(types:String,name:String,cd:String){
 	let raw:String=fs::read_to_string("osracg_data.txt").unwrap();
 	let raw_l:Vec<String>=raw.clone().split("\n").map(|x|x.to_string()).collect::<Vec<String>>();
 	let mut d_l:Vec<f64>=Vec::new();
@@ -131,21 +131,58 @@ fn generator(types:String,name:String){
 		}
 		finale.push("\nif __name__==\"__main__\":\n\tosracg();".to_string());
 		fs::remove_file("osracg_data.txt").unwrap();
-		fs::write(format!("{}.py",name.clone()),finale.join(""));
+		fs::write(format!("{}/{}.py",cd.clone(),name.clone()),finale.join(""));
+		println!("build success!");
+	}else if types=="rust"{
+		print!("Sorry...rust code generation is still under development!\nIn current version please choose python instead!");
+		fs::remove_file("osracg_data.txt").unwrap();
 	}
 }
-fn main(){
+#[tokio::main]
+async fn main(){
+	match fs::exists("osracg_deprecated.exe"){
+		Ok(i)=>{if i{fs::remove_file("osracg_deprecated.exe").unwrap();}},
+		Err(e)=>{eprint!("Err idk why this happen also,if you have time please report this to the github issue page in case you have some free time :)");exit(1);},
+	}
+	let current_directory:String=env::current_dir().expect("Can't get current directory path!").display().to_string();
+	let cmajor:i32=0;
+	let cminor:i32=3;
+	let cpatch:i32=0;
+	let current_version:String=format!("v{}.{}.{}",cmajor,cminor,cpatch);
 	let mut enigo = Enigo::new(&Settings::default()).unwrap();
 	let args=env::args().collect::<Vec<_>>();
-	if args.len()==2{
-		if "-v"==args[1]{
-			print!("Current osracg version:v0.2.1");
-		}else if "-h"==args[1]{
-			//change it if windows
-			print!("To use osracg:\n\t.\\osracg [-v(get version) || -h(get help) || your_file_name]");
+	if args.len()>=2{
+		if "-"==args[1].split("").collect::<Vec<_>>()[1]{
+			if "-v"==args[1]{
+				print!("Current osracg version:{}",current_version.clone());
+			}else if "-h"==args[1]{
+				//change it if windows
+				print!("To use osracg:\n\t.\\osracg [-v(get version) || -h(get help) || --upgrade || your_file_name [-py(default) || -rs(developing)]]");
+			}else if "--upgrade"==args[1]{
+				print!("Checking the latest version of osracg...\n");
+				let latest_version=reqwest::get("https://raw.githubusercontent.com/cocohungandyaya/osracg/refs/heads/main/version_pull.txt").await.unwrap_or_else(|err|{eprint!("Error!\n{}",err);exit(1);}).text().await.unwrap_or_else(|err|{eprint!("Error!\n{}",err);exit(1);});
+				let major:i32=latest_version.split(".").collect::<Vec<_>>()[0].parse::<i32>().unwrap();
+				let minor:i32=latest_version.split(".").collect::<Vec<_>>()[1].parse::<i32>().unwrap();
+				let patch:i32=latest_version.split(".").collect::<Vec<_>>()[2].to_string().trim().parse::<i32>().unwrap();
+				let latest_version:String=format!("v{}.{}.{}",major,minor,patch);
+				if major>cmajor||minor>cminor||patch>cpatch{
+					print!("A newer version is available:{} (current_version:{})\n",latest_version.clone(),current_version.clone());
+					print!("Pulling the latest release...\n");
+					let latest_link:String=format!("https://github.com/cocohungandyaya/osracg/releases/download/{}/osracg.exe",latest_version.clone());
+					let latest_release=reqwest::get(latest_link.clone()).await.unwrap_or_else(|err|{eprint!("Error!\n{}",err);exit(1);}).bytes().await.unwrap_or_else(|err|{eprint!("Error!\n{}",err);exit(1);});
+					print!("Done!\nNow renaming osracg into osracg_deprecated...\n");
+					fs::rename("osracg.exe","osracg_deprecated.exe").unwrap();
+					print!("Done!\nNow writing in the latest osracg...\n");
+					fs::write("osracg",&latest_release).unwrap();
+					print!("Done!");
+				}else{print!("Current version({}) is the latest\n",current_version.clone());}
+			}else{
+				print!("Command not found!\nHere is the list of usable commands:\n\t-v(get version)\n\t-h(get help)\n\t--upgrade\n\tyour_file_name [-py(default) || -rs(developing)]");
+			}
 		}else{
 			print!("Extracting:osracg_core.exe\n");
 			fs::write("osracg_core.exe",core);
+			print!("Done!\n");
 			print!("Done!\n");
 			println!("record started,processing \"Alt+Tab\"");
 			enigo.key(Key::Alt,Press);
@@ -156,8 +193,19 @@ fn main(){
 			let result=Command::new("osracg_core.exe").status().unwrap();
 			if result.success(){
 				refactor();
-				generator("python".to_string(),args[1].to_string());
-				println!("build success!");
+				let mut rs:String="python".to_string();
+				if args.len()==3{
+					if args[2]=="-py"{
+						print!("Build set to python...\n");
+					}else if args[2]=="-rs"{
+						print!("Build set to rust...\n");
+						rs="rust".to_string();
+					}else{
+						print!("unknown file type,osracg only support rust and python,you should either use -rs or -py\n");
+						print!("falling back to default(python)...\n");
+					}
+				}
+				generator(rs.clone(),args[1].to_string(),current_directory.clone());
 				print!("Now removing the core component...\n");
 				fs::remove_file("osracg_core.exe").unwrap();
 				print!("Done!");
@@ -170,5 +218,5 @@ fn main(){
 			}
 		}
 	//if windows change this
-	}else{eprint!("Error,osracg use the following param:\n\t.\\osracg [-v(get version) || -h(get help) || your_file_name]");exit(1);}
+	}else{eprint!("Error,osracg use the following param:\n\t.\\osracg [-v(get version) || -h(get help) || --upgrade || your_file_name [-py(default) || -rs(developing)]]");exit(1);}
 }
