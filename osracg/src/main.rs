@@ -152,7 +152,7 @@ async fn main(){
 	let current_directory:String=env::current_dir().expect("Can't get current directory path!").display().to_string();
 	let cmajor:i32=0;
 	let cminor:i32=3;
-	let cpatch:i32=0;
+	let cpatch:i32=1;
 	let current_version:String=format!("v{}.{}.{}",cmajor,cminor,cpatch);
 	let mut enigo = Enigo::new(&Settings::default()).unwrap();
 	let args=env::args().collect::<Vec<_>>();
@@ -162,8 +162,8 @@ async fn main(){
 				print!("Current osracg version:{}",current_version.clone());
 			}else if "-h"==args[1]{
 				//change it if windows
-				print!("To use osracg:\n\t./osracg [-v(get version) || -h(get help) || --upgrade || your_file_name [-py(default) || -rs(developing)]]");
-			}else if "--upgrade"==args[1]{
+				print!("To use osracg:\n\t./osracg [-v(get version) || -h(get help) || --upgrade || --update || your_file_name [-py(default) || -rs(developing)]]");
+			}else if "--upgrade"==args[1] || "--update"==args[1]{
 				print!("Checking the latest version of osracg...\n");
 				let latest_version=reqwest::get("https://raw.githubusercontent.com/cocohungandyaya/osracg/refs/heads/main/version_pull.txt").await.unwrap_or_else(|err|{eprint!("Error!\n{}",err);exit(1);}).text().await.unwrap_or_else(|err|{eprint!("Error!\n{}",err);exit(1);});
 				let major:i32=latest_version.split(".").collect::<Vec<_>>()[0].parse::<i32>().unwrap();
@@ -190,7 +190,7 @@ async fn main(){
 					print!("Done!");
 				}else{print!("Current version({}) is the latest\n",current_version.clone());}
 			}else{
-				print!("Command not found!\nHere is the list of usable commands:\n\t-v(get version)\n\t-h(get help)\n\t--upgrade\n\tyour_file_name [-py(default) || -rs(developing)]");
+				print!("Command not found!\nHere is the list of usable commands:\n\t-v(get version)\n\t-h(get help)\n\t--upgrade || --update\n\tyour_file_name [-py(default) || -rs(developing)]");
 			}
 		}else{
 			print!("Extracting:osracg_core\n");
@@ -240,5 +240,5 @@ async fn main(){
 			}
 		}
 	//if windows change this
-	}else{eprint!("Error,osracg use the following param:\n\t./osracg [-v(get version) || -h(get help) || --upgrade || your_file_name [-py(default) || -rs(developing)]]");exit(1);}
+	}else{eprint!("Error,osracg use the following param:\n\t./osracg [-v(get version) || -h(get help) || --upgrade || --update || your_file_name [-py(default) || -rs(developing)]]");exit(1);}
 }
