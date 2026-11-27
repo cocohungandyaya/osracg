@@ -21,3 +21,5 @@ v0.1.9: solve the problem that cant use "\"(BackSlash) and add back little bit d
 v0.2.0: Fix the problem which cause windows system cant use osracg,Embedded osracg_core into osracg so you only need to download one single file,also Now the pause between each key become smarter,if you need a pause get written into the python file,remember to pause for at least 2 seconds
 
 v0.2.1: improve the osracg_core component so now during recording it will be way smoother and cause less lagging
+
+v0.3.0: Now osracg support self upgrade by using the --upgrade command
