@@ -7,8 +7,8 @@ use enigo::{
 };
 use std::process::{Command,exit};
 const core:&[u8]=include_bytes!("osracg_core.exe");
-fn refactor(){
-	let raw:String=fs::read_to_string("osracg_data.txt").unwrap();
+fn refactor(cd:String){
+	let raw:String=fs::read_to_string(format!("{}/osracg_data.txt",cd.clone())).unwrap();
 	let mut rpline:Vec<String>=raw.clone().split("\n").map(|x|x.to_string()).collect::<Vec<String>>();
 	let mut time_l:Vec<i64>=Vec::new();
 	let mut event_l:Vec<String>=Vec::new();
@@ -54,17 +54,26 @@ fn refactor(){
 	}
 	//now combine everything and format like Duration:Action:param
 	for i in 0..event_l.len(){
-		event_l[i]=event_l[i].split("(").collect::<Vec<_>>().join(":").split(")").collect::<Vec<_>>().join("").to_string();
+		//press(unknown(132))
+		//press(alt)
+		//oh...forgot add ":"... :/
+		let mut tel:Vec<&str>=event_l[i].split("(").collect::<Vec<_>>();
+		let mut teltemp:String=tel[0].to_string();
+		let telt:String=tel[1..tel.len()].to_vec().join("(");
+		tel=telt.split(")").collect::<Vec<_>>()[0..tel.len()-1].to_vec();
+		teltemp.push_str(":");
+		teltemp.push_str(&tel.join(")"));
+		event_l[i]=teltemp;
 	}//done second_refactor
 	//now merge together
 	let mut finale:Vec<String>=Vec::new();
 	for i in 0..event_l.len(){
 		finale.push(format!("{}:{}",(reft_l[i]).to_string(),event_l[i].clone()));
 	}//now write back into the file
-	fs::write("osracg_data.txt",finale.join("\n"));
+	fs::write(format!("{}/osracg_data.txt",cd.clone()),finale.join("\n"));
 }
-fn generator(types:String,name:String,cd:String){
-	let raw:String=fs::read_to_string("osracg_data.txt").unwrap();
+fn generator(types:String,name:String,cd:String,ce:String,target:String){
+	let raw:String=fs::read_to_string(format!("{}/osracg_data.txt",cd.clone())).unwrap();
 	let raw_l:Vec<String>=raw.clone().split("\n").map(|x|x.to_string()).collect::<Vec<String>>();
 	let mut d_l:Vec<f64>=Vec::new();
 	let mut a_l:Vec<String>=Vec::new();
@@ -96,10 +105,10 @@ fn generator(types:String,name:String,cd:String){
 		},
 		*/
 			if p_l[i].contains("Unknown"){continue}
-			hid_d=(((hid_d*1000000000.0)as i64 +(d_l[i]*1000000000.0)as i64)as f64)/1000000000.0;
+			hid_d=((((hid_d*1000000000.0) as i32)as i64 +(d_l[i]*1000000000.0)as i64)as f64)/1000000000.0;
 			if a_l[i]=="KeyPress"{
 				if i>0&& !(a_l[i-1]=="KeyPress"||a_l[i-1]=="KeyRelease")||hid_d>=2.0{
-					finale.push(format!("\ttime.sleep({});\n",hid_d));
+					finale.push(format!("\ttime.sleep({});\n",hid_d as i32));
 				}
 				let mut temp_p:String=p_l[i].clone();
 				temp_p=temp_p.split("Arrow").collect::<Vec<_>>().join("").split("Meta").collect::<Vec<_>>().join("win").split("BackQuote").collect::<Vec<_>>().join("`").split("Minus").collect::<Vec<_>>().join("-").split("Equal").collect::<Vec<_>>().join("=").split("LeftBracket").collect::<Vec<_>>().join("[").split("RightBracket").collect::<Vec<_>>().join("]").split("SemiColon").collect::<Vec<_>>().join(";").split("Quote").collect::<Vec<_>>().join("'").split("BackSlash").collect::<Vec<_>>().join("\\\\").split("Comma").collect::<Vec<_>>().join(",").split("Dot").collect::<Vec<_>>().join(".").split("Slash").collect::<Vec<_>>().join("/").split("Function").collect::<Vec<_>>().join("fn").split("Key").collect::<Vec<_>>().join("").split("Num").collect::<Vec<_>>().join("").split("Control").collect::<Vec<_>>().join("ctrl").split("AltGr").collect::<Vec<_>>().join("altright").to_string().to_lowercase();
@@ -107,47 +116,129 @@ fn generator(types:String,name:String,cd:String){
 				hid_d=0.0;
 			}else if a_l[i]=="KeyRelease"{
 				if i>0&& !(a_l[i-1]=="KeyPress"||a_l[i-1]=="KeyRelease")||hid_d>=2.0{
-					finale.push(format!("\ttime.sleep({});\n",hid_d));
+					finale.push(format!("\ttime.sleep({});\n",hid_d as i32));
 				}
 				let mut temp_p:String=p_l[i].clone();
 				temp_p=temp_p.split("Arrow").collect::<Vec<_>>().join("").split("Meta").collect::<Vec<_>>().join("win").split("BackQuote").collect::<Vec<_>>().join("`").split("Minus").collect::<Vec<_>>().join("-").split("Equal").collect::<Vec<_>>().join("=").split("LeftBracket").collect::<Vec<_>>().join("[").split("RightBracket").collect::<Vec<_>>().join("]").split("SemiColon").collect::<Vec<_>>().join(";").split("Quote").collect::<Vec<_>>().join("'").split("BackSlash").collect::<Vec<_>>().join("\\\\").split("Comma").collect::<Vec<_>>().join(",").split("Dot").collect::<Vec<_>>().join(".").split("Slash").collect::<Vec<_>>().join("/").split("Function").collect::<Vec<_>>().join("fn").split("Key").collect::<Vec<_>>().join("").split("Num").collect::<Vec<_>>().join("").split("Control").collect::<Vec<_>>().join("ctrl").split("AltGr").collect::<Vec<_>>().join("altright").to_string().to_lowercase();
 				finale.push(format!("\tpy.keyUp(\"{}\");\n",temp_p.clone()));
 				hid_d=0.0;
 			}else if a_l[i]=="ButtonPress"{
-				finale.push(format!("\ttime.sleep({});\n",hid_d));
+				finale.push(format!("\ttime.sleep({});\n",hid_d as i32));
 				finale.push(format!("\tpy.mouseDown(button=\"{}\");\n",p_l[i].clone().to_lowercase()));
 				hid_d=0.0;
 			}else if a_l[i]=="ButtonRelease"{
-				finale.push(format!("\ttime.sleep({});\n",hid_d));
+				finale.push(format!("\ttime.sleep({});\n",hid_d as i32));
 				finale.push(format!("\tpy.mouseUp(button=\"{}\");\n",p_l[i].clone().to_lowercase()));
 				hid_d=0.0;
 			}else if a_l[i]=="MouseMove"{
 				if i+1<d_l.len()&&(a_l[i+1]=="ButtonPress"||a_l[i+1]=="ButtonRelease"){
-					finale.push(format!("\ttime.sleep({});\n",hid_d));
+					finale.push(format!("\ttime.sleep({});\n",hid_d as i32));
 					finale.push(format!("\tpy.moveTo({});\n",p_l[i].clone()));
 					hid_d=0.0;
 				}
 			}
 		}
 		finale.push("\nif __name__==\"__main__\":\n\tosracg();".to_string());
-		fs::remove_file("osracg_data.txt").unwrap();
-		fs::write(format!("{}/{}.py",cd.clone(),name.clone()),finale.join(""));
+		fs::remove_file(format!("{}/osracg_data.txt",cd.clone())).unwrap();
+		let mut real_target:String=cd.clone();
+		if !target.is_empty(){
+			real_target=target.clone();
+		}
+		fs::write(format!("{}/{}.py",real_target.clone(),name.clone()),finale.join(""));
 		println!("build success!");
 	}else if types=="rust"{
-		print!("Sorry...rust code generation is still under development!\nIn current version please choose python instead!");
-		fs::remove_file("osracg_data.txt").unwrap();
+		let dura:i32=30000000;
+		let mut finale:Vec<String>=Vec::new();
+		finale.push("//<This file is automatically generated by osracg>\n//<It is not intended for manual editing>\n//this file is only for importation,not support for execute directly\nuse enigo::{\n\tButton, Coordinate,\n\tDirection::{Click, Press, Release},\n\tEnigo, Key, Keyboard, Mouse, Settings,\n};\nuse std::thread::sleep;\nuse std::time::Duration;\npub fn osracg(){\n\tlet mut enigo = Enigo::new(&Settings::default()).unwrap();\n".to_string());
+		//duration times 1e10
+		let mut hid_d:f64=0.0;
+		for i in 0..d_l.len(){
+			hid_d=((((hid_d*1000000000.0) as i32)as i64 +(d_l[i]*1000000000.0)as i64)as f64)/1000000000.0;
+			if a_l[i]=="KeyPress"{
+				if i>0&& !(a_l[i-1]=="KeyPress"||a_l[i-1]=="KeyRelease")||hid_d>=2.0{
+					finale.push(format!("\tsleep(Duration::from_nanos({}));\n",(hid_d*1000000000.0) as i32));
+				}
+				let mut temp_p:String=p_l[i].clone();
+				temp_p=temp_p.split("AltGr").collect::<Vec<_>>().join("Alt").split("ControlLeft").collect::<Vec<_>>().join("Control").split("ControlRight").collect::<Vec<_>>().join("Control").split("MetaLeft").collect::<Vec<_>>().join("Meta").split("ShiftLeft").collect::<Vec<_>>().join("LShift").split("ShiftRight").collect::<Vec<_>>().join("RShift").split("PrintScreen").collect::<Vec<_>>().join("PrintScr").split("NumLock").collect::<Vec<_>>().join("Numlock").split("BackQuote").collect::<Vec<_>>().join("Key`").split("Minus").collect::<Vec<_>>().join("Key-").split("Equal").collect::<Vec<_>>().join("Key=").split("LeftBracket").collect::<Vec<_>>().join("Key[").split("RightBracket").collect::<Vec<_>>().join("Key]").split("SemiColon").collect::<Vec<_>>().join("Key;").split("Quote").collect::<Vec<_>>().join("Key\\'").split("BackSlash").collect::<Vec<_>>().join("Key\\\\").split("Comma").collect::<Vec<_>>().join("Key,").split("Dot").collect::<Vec<_>>().join("Key.").split("Slash").collect::<Vec<_>>().join("Key/").to_string();
+				//Unicode(char),
+    				//Other(u32),
+				if temp_p.contains("Unknown"){
+					temp_p=temp_p.split("Unknown(").collect::<Vec<_>>().join("").split(")").collect::<Vec<_>>().join("").to_string();
+					finale.push(format!("\tenigo.key(Key::Other({}),Press);\n",temp_p.clone()));
+				}else if temp_p.contains("Key") || "1234567890".contains(&temp_p.split("Num").collect::<Vec<_>>().join("")){
+					finale.push(format!("\tenigo.key(Key::Unicode(\'{}\'),Press);\n",temp_p.split("Key").collect::<Vec<_>>().join("").split("Num").collect::<Vec<_>>().join("").to_lowercase()));
+				}else{	
+					finale.push(format!("\tenigo.key(Key::{},Press);\n",temp_p.clone()));
+				}
+				finale.push(format!("\tsleep(Duration::from_nanos({}));\n",dura));
+				hid_d=0.0;
+			}else if a_l[i]=="KeyRelease"{
+				if i>0&& !(a_l[i-1]=="KeyPress"||a_l[i-1]=="KeyRelease")||hid_d>=2.0{
+					finale.push(format!("\tsleep(Duration::from_nanos({}));\n",(hid_d*1000000000.0) as i32));
+				}
+				let mut temp_p:String=p_l[i].clone();
+				temp_p=temp_p.split("AltGr").collect::<Vec<_>>().join("Alt").split("ControlLeft").collect::<Vec<_>>().join("Control").split("ControlRight").collect::<Vec<_>>().join("Control").split("MetaLeft").collect::<Vec<_>>().join("Meta").split("ShiftLeft").collect::<Vec<_>>().join("LShift").split("ShiftRight").collect::<Vec<_>>().join("RShift").split("PrintScreen").collect::<Vec<_>>().join("PrintScr").split("NumLock").collect::<Vec<_>>().join("Numlock").split("BackQuote").collect::<Vec<_>>().join("Key`").split("Minus").collect::<Vec<_>>().join("Key-").split("Equal").collect::<Vec<_>>().join("Key=").split("LeftBracket").collect::<Vec<_>>().join("Key[").split("RightBracket").collect::<Vec<_>>().join("Key]").split("SemiColon").collect::<Vec<_>>().join("Key;").split("Quote").collect::<Vec<_>>().join("Key\\'").split("BackSlash").collect::<Vec<_>>().join("Key\\\\").split("Comma").collect::<Vec<_>>().join("Key,").split("Dot").collect::<Vec<_>>().join("Key.").split("Slash").collect::<Vec<_>>().join("Key/").to_string();
+				//Unicode(char),
+    				//Other(u32),
+				if temp_p.contains("Unknown"){
+					temp_p=temp_p.split("Unknown(").collect::<Vec<_>>().join("").split(")").collect::<Vec<_>>().join("").to_string();
+					finale.push(format!("\tenigo.key(Key::Other({}),Release);\n",temp_p.clone()));
+				}else if temp_p.contains("Key") || "1234567890".contains(&temp_p.split("Num").collect::<Vec<_>>().join("")){
+					finale.push(format!("\tenigo.key(Key::Unicode(\'{}\'),Release);\n",temp_p.split("Key").collect::<Vec<_>>().join("").split("Num").collect::<Vec<_>>().join("").to_lowercase()));
+				}else{	
+					finale.push(format!("\tenigo.key(Key::{},Release);\n",temp_p.clone()));
+				}
+				finale.push(format!("\tsleep(Duration::from_nanos({}));\n",dura));
+				hid_d=0.0;
+			}else if a_l[i]=="ButtonPress"{
+				if p_l[i].contains("Unknown"){continue}
+				else{
+					finale.push(format!("\tsleep(Duration::from_nanos({}));\n",(hid_d*1000000000.0) as i32));
+					finale.push(format!("\tenigo.button(Button::{},Press);\n",p_l[i].clone()));
+					finale.push(format!("\tsleep(Duration::from_nanos({}));\n",dura));
+					hid_d=0.0;
+				}
+			}else if a_l[i]=="ButtonRelease"{
+				if p_l[i].contains("Unknown"){continue}
+				else{
+					finale.push(format!("\tsleep(Duration::from_nanos({}));\n",(hid_d*1000000000.0) as i32));
+					finale.push(format!("\tenigo.button(Button::{},Release);\n",p_l[i].clone()));
+					finale.push(format!("\tsleep(Duration::from_nanos({}));\n",dura));
+					hid_d=0.0;
+				}
+			}else if a_l[i]=="MouseMove"{
+				if i+1<d_l.len()&&(a_l[i+1]=="ButtonPress"||a_l[i+1]=="ButtonRelease"){
+					finale.push(format!("\tsleep(Duration::from_nanos({}));\n",(hid_d*1000000000.0) as i32));
+					finale.push(format!("\tenigo.move_mouse({},Coordinate::Abs);\n",p_l[i].clone()));
+					finale.push(format!("\tsleep(Duration::from_nanos({}));\n",dura));
+					hid_d=0.0;
+				}
+			}
+		}
+		finale.push("}".to_string());
+		fs::remove_file(format!("{}/osracg_data.txt",cd.clone())).unwrap();
+		let mut real_target:String=cd.clone();
+		if !target.is_empty(){
+			real_target=target.clone();
+		}
+		fs::write(format!("{}/{}.rs",real_target.clone(),name.clone()),finale.join(""));
+		println!("build success!");
 	}
 }
 #[tokio::main]
 async fn main(){
-	match fs::exists("osracg_deprecated.exe"){
-		Ok(i)=>{if i{fs::remove_file("osracg_deprecated.exe").unwrap();}},
-		Err(e)=>{eprint!("Err idk why this happen also,if you have time please report this to the github issue page in case you have some free time :)");exit(1);},
+	let mut current_directory:String=env::current_dir().expect("Can't get current directory path!").display().to_string();
+	let mut replace_path:String=String::new();
+	let mut current_executable:String=env::current_exe().expect("Can't get current directory path!").display().to_string().split("\\").collect::<Vec<_>>().join("/").to_string();
+	let current_path:Vec<&str>=current_executable.split("/").collect::<Vec<&str>>();
+	current_executable=current_path[0..current_path.len()-1].join("/");
+	match fs::exists(format!("{}/osracg_deprecated.exe",current_executable.clone())){
+		Ok(i)=>{if i{fs::remove_file(format!("{}/osracg_deprecated.exe",current_executable.clone())).unwrap();}},
+		Err(e)=>{eprint!("Error! Invalid path...");exit(1);},
 	}
-	let current_directory:String=env::current_dir().expect("Can't get current directory path!").display().to_string();
 	let cmajor:i32=0;
-	let cminor:i32=3;
-	let cpatch:i32=1;
+	let cminor:i32=4;
+	let cpatch:i32=0;
 	let current_version:String=format!("v{}.{}.{}",cmajor,cminor,cpatch);
 	let mut enigo = Enigo::new(&Settings::default()).unwrap();
 	let args=env::args().collect::<Vec<_>>();
@@ -157,7 +248,7 @@ async fn main(){
 				print!("Current osracg version:{}",current_version.clone());
 			}else if "-h"==args[1]{
 				//change it if windows
-				print!("To use osracg:\n\t.\\osracg [-v(get version) || -h(get help) || --upgrade || --update || your_file_name [-py(default) || -rs(developing)]]");
+				print!("To use osracg:\n\t.\\osracg [-v(get version) || -h(get help) || --upgrade || --update || \n\t\t  your_file_name [-py(default) || -rs || --path [path_to_target_location]]");
 			}else if "--upgrade"==args[1] || "--update"==args[1]{
 				print!("Checking the latest version of osracg...\n");
 				let latest_version=reqwest::get("https://raw.githubusercontent.com/cocohungandyaya/osracg/refs/heads/main/version_pull.txt").await.unwrap_or_else(|err|{eprint!("Error!\n{}",err);exit(1);}).text().await.unwrap_or_else(|err|{eprint!("Error!\n{}",err);exit(1);});
@@ -168,20 +259,22 @@ async fn main(){
 				if !(major==cmajor&&minor==cminor&&patch==cpatch)&&(major>=cmajor&&minor>=cminor&&patch>=cpatch){
 					print!("A newer version is available:{} (current_version:{})\n",latest_version.clone(),current_version.clone());
 					print!("Pulling the latest release...\n");
-					let latest_link:String=format!("https://github.com/cocohungandyaya/osracg/releases/download/{}/osracg.exe",latest_version.clone());
+					let latest_link:String=format!("https://github.com/cocohungandyaya/osracg/releases/download/{}/osracg",latest_version.clone());
 					let latest_release=reqwest::get(latest_link.clone()).await.unwrap_or_else(|err|{eprint!("Error!\n{}",err);exit(1);}).bytes().await.unwrap_or_else(|err|{eprint!("Error!\n{}",err);exit(1);});
 					print!("Done!\nNow renaming osracg into osracg_deprecated...\n");
-					fs::rename("osracg.exe","osracg_deprecated.exe").unwrap();
+					fs::rename(format!("{}/osracg.exe",current_executable.clone()),format!("{}/osracg_deprecated.exe",current_executable.clone())).unwrap();
 					print!("Done!\nNow writing in the latest osracg...\n");
-					fs::write("osracg.exe",&latest_release).unwrap();
+					fs::write(format!("{}/osracg.exe",current_executable.clone()),&latest_release).unwrap();
 					print!("Done!");
 				}else{print!("Current version({}) is the latest\n",current_version.clone());}
 			}else{
-				print!("Command not found!\nHere is the list of usable commands:\n\t-v(get version)\n\t-h(get help)\n\t--upgrade || --update\n\tyour_file_name [-py(default) || -rs(developing)]");
+				print!("Command not found!\nHere is the list of usable commands:\n\t-v(get version)\n\t-h(get help)\n\t--upgrade || --update\n\tyour_file_name [-py(default) || -rs || --path [path_to_target_location]]");
 			}
 		}else{
-			print!("Extracting:osracg_core.exe\n");
-			fs::write("osracg_core.exe",core);
+			let mut call_core:String=current_executable.clone();
+			call_core.push_str("/osracg_core.exe");//change if windows
+			print!("Extracting:osracg_core\n");
+			fs::write(&call_core,core);
 			print!("Done!\n");
 			println!("record started,processing \"Alt+Tab\"");
 			enigo.key(Key::Alt,Press);
@@ -189,33 +282,61 @@ async fn main(){
 			enigo.key(Key::Tab,Release);
 			enigo.key(Key::Alt,Release);
 			//change it if windows
-			let result=Command::new("osracg_core.exe").status().unwrap();
+			let result=Command::new(&call_core).status().unwrap();
 			if result.success(){
-				refactor();
+				refactor(current_directory.clone());
 				let mut rs:String="python".to_string();
-				if args.len()==3{
-					if args[2]=="-py"{
-						print!("Build set to python...\n");
-					}else if args[2]=="-rs"{
-						print!("Build set to rust...\n");
-						rs="rust".to_string();
-					}else{
-						print!("unknown file type,osracg only support rust and python,you should either use -rs or -py\n");
-						print!("falling back to default(python)...\n");
+				let mut skipper:bool=false;
+				if args.len()>2{
+					for bruh in 2..args.len(){
+						if skipper{skipper=false;continue}
+						if args[bruh]=="-py"{
+							print!("Build set to python...\n");
+							rs="python".to_string();
+						}else if args[bruh]=="-rs"{
+							print!("Build set to rust...\n");
+							rs="rust".to_string();
+						}else if args[bruh]=="--path"{
+							if bruh+1<args.len(){
+								if !(args[bruh+1]=="-rs" || args[bruh+1]=="-py" || args[bruh+1]=="--path"){
+									let mut tempath:String=args[bruh+1].to_string();
+									let mut temparg:String=args[bruh+1].to_string();
+									if (temparg.split("").collect::<Vec<_>>()[1]=="\"" || temparg.split("").collect::<Vec<_>>()[1]=="\'") && (temparg.split("").collect::<Vec<_>>()[temparg.split("").collect::<Vec<_>>().len()-2]=="\"" || temparg.split("").collect::<Vec<_>>()[temparg.split("").collect::<Vec<_>>().len()-2]=="\'"){
+										//here trim path
+										tempath=temparg.split("").collect::<Vec<_>>()[2..temparg.split("").collect::<Vec<_>>().len()-2].to_vec().join("");
+										tempath=tempath.split("\\").collect::<Vec<_>>().join("/");
+									}
+									match fs::exists(tempath.clone()){
+										Ok(i)=>{if i{replace_path=tempath.clone();skipper=true;print!("Target Location Set To:{}\n",replace_path.clone());}else{print!("Error! Invalid Path...\n");print!("Path set fail...fall back to default:{}\n",current_directory.clone());}},
+										Err(e)=>{print!("Error! Invalid Path...\n");
+										print!("Path set fail...fall back to default:{}\n",current_directory.clone());},
+									}
+								}else{
+									print!("Missing arguments...correct command: --path [path_to_target_location]\n");
+									print!("Path set fail...fall back to default:{}\n",current_directory.clone());
+								}
+							}else{
+								print!("Missing arguments...correct command: --path [path_to_target_location]\n");
+								print!("Path set fail...fall back to default:{}\n",current_directory.clone());
+							}
+						}else{
+							print!("unknown arguments,ignoring...\n");
+						}
 					}
 				}
-				generator(rs.clone(),args[1].to_string(),current_directory.clone());
+				
+				generator(rs.clone(),args[1].to_string(),current_directory.clone(),current_executable.clone(),replace_path.clone());
 				print!("Now removing the core component...\n");
-				fs::remove_file("osracg_core.exe").unwrap();
+				fs::remove_file(&call_core).unwrap();
 				print!("Done!");
 			}else{
 				eprint!("have error with the osracg_core component,if you have time please report this to the github issue\n");
 				eprint!("Now removing the core component...\n");
-				fs::remove_file("osracg_core.exe").unwrap();
+				fs::remove_file(&call_core).unwrap();
 				eprint!("Done!");
 				exit(1);
 			}
 		}
 	//if windows change this
-	}else{eprint!("Error,osracg use the following param:\n\t.\\osracg [-v(get version) || -h(get help) || --upgrade || --update || your_file_name [-py(default) || -rs(developing)]]");exit(1);}
+	}else{eprint!("Error,osracg use the following param:\n\t.\\osracg [-v(get version) || -h(get help) || --upgrade || --update || \n\t\t  your_file_name [-py(default) || -rs || --path [path_to_target_location]]");exit(1);}
 }
