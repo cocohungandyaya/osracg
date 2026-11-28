@@ -1,57 +1,101 @@
+Here is a clean, scannable README.md refactor designed so anyone landing on the repo immediately grasps what **osracg** does, how to run it, and how versions evolved—without getting bogged down in dense walls of text. (Also caught and fixed a small typo in your original Windows --update snippet where it had .\osrscg --update.)
+```markdown
 # osracg
-A tool (CLI/GUI) to auto generate python/rust code file after recorded os keyboard and mouse actions
 
-The file got generated is a standalone file which you can choose to either import or run it
+**OS Recorder Action Code Generator** — Record keyboard and mouse actions on your OS and automatically generate a standalone **Python** (`pyautogui`) or **Rust** (`enigo`) script.
 
-Full name:Os recorder action code generator
-# Quick Start
-for python it use pyautogui,for rust it use enigo,make sure you have those installed in order to run the code file generated
-1. Download the release that match your system 
-2. Run the osracg with your terminal/CMD opened in the same folder as where osracg locate
+Run the generated file directly or import/include it as a module in your own project.
 
-  **Linux**
-  ```
-  ./osracg your_file_name [-py(default) || -rs || --path [path_to_target_location]]
-  ```
-  **Windows**
-  ```
-  .\osracg your_file_name [-py(default) || -rs || --path [path_to_target_location]]
-  ```
-3. it will auto perform Alt-Tab(This action won't be included in the generated file)so remember to put the page you want to record in the background first
-4. After you done recording press F12 to end the recording and it will auto generate a file call your_file_name.py/your_file_name.rs
-5. To use the code file,you can rather run it directly or drop it to the same folder next to your python code file,to use it:
+> **Demo (v0.1.9):** [Watch on YouTube](https://youtu.be/BXep_h8a7nY?si=BWVwMDX9v9g2CKTW)
 
-**python**
-```py
-import your_file_name
-your_file_name.osracg()
-```
-**rust**
-```rs
-mod your_file_name;
-fn main(){
-  your_file_name::osracg();
-}
-```
-For details on what keys osracg support,check out [Support_keys](https://github.com/cocohungandyaya/osracg/blob/main/Support_Keys.txt)
+---
 
-### Note that mouse Wheel is not supported
+## Quick Start
 
-## Additional command:
+### Prerequisites
+* **Python output:** `pip install pyautogui`
+* **Rust output:** Add `enigo` to your project dependencies
+
+### 1. Download & Open Terminal
+Download the release binary for your OS and open your terminal or Command Prompt in that same directory.
+
+### 2. Start Recording
+Flags after `<your_file_name>` are optional.
+
 **Linux**
-```
-./osracg -v
-./osracg -h
-./osracg --upgrade
-./osracg --update
+```bash
+./osracg <your_file_name> [-py | -rs | --path <target_dir>]
+
 ```
 **Windows**
+```powershell
+.\osracg <your_file_name> [-py | -rs | --path <target_dir>]
+
 ```
-.\osracg -v
-.\osracg -h
-.\osracg --upgrade
-.\osrscg --update
+ * Default output format is -py (Python).
+ * Use -rs to generate a Rust file.
+ * Use --path <target_dir> to output the generated file to a specific folder.
+### 3. Record & Stop
+ 1. **Put your target window in the background first** — osracg automatically triggers Alt+Tab when starting (this Alt+Tab is not recorded).
+ 2. Perform your keyboard and mouse actions.
+ 3. Press **F12** to stop recording and generate <your_file_name>.py or <your_file_name>.rs.
+### 4. Use the Generated File
+Run the generated script standalone, or place it alongside your project and call osracg():
+**Python**
+```python
+import your_file_name
+
+your_file_name.osracg()
+
 ```
-For details on what is new in each version check out [Version Note](https://github.com/cocohungandyaya/osracg/blob/main/Version%20Note.txt)
-### Not suggested to rely on holding down a key(e.g.Delete) because the code replay might have small inaccuracy
-Here is a demo video for v0.1.9:[Click Me!](https://youtu.be/BXep_h8a7nY?si=BWVwMDX9v9g2CKTW)
+**Rust**
+```rust
+mod your_file_name;
+
+fn main() {
+    your_file_name::osracg();
+}
+
+```
+## Other Commands
+**Linux**
+```bash
+./osracg -v          # Show version
+./osracg -h          # Show help
+./osracg --upgrade   # Self-update binary
+./osracg --update    # Same as --upgrade
+
+```
+**Windows**
+```powershell
+.\osracg -v          # Show version
+.\osracg -h          # Show help
+.\osracg --upgrade   # Self-update binary
+.\osracg --update    # Same as --upgrade
+
+```
+## Notes & Limitations
+ * **Supported keys:** See Support_Keys.txt.
+ * **Mouse wheel:** Not supported.
+ * **Key holds:** Avoid holding keys down (such as Delete) for long periods, as replay timing can have minor inaccuracies.
+ * **Intentional pauses:** Pause for **at least 2 seconds** during recording if you want a delay written into the generated script.
+ * **Changelog details:** See Version Note.txt.
+## Release History
+| Version | Highlights |
+|---|---|
+| **v0.4.1** | Patched a bug causing --update / --upgrade to fail. |
+| **v0.4.0** | Added Rust (enigo) code generation and --path output directory support. |
+| **v0.3.1** | Added --update alias matching --upgrade. |
+| **v0.3.0** | Added self-upgrade support via --upgrade. |
+| **v0.2.1** | Improved osracg_core for smoother recording and lower lag. |
+| **v0.2.0** | Fixed Windows compatibility, embedded osracg_core into a single binary, and added smarter pause detection (pause ≥ 2s to record a delay). |
+| **v0.1.9** | Fixed backslash (\) handling and slightly tuned input durations for reliability. |
+| **v0.1.8** | Faster Python execution and updated usage workflow. |
+| **v0.1.7** | Trimmed leading mouse movements prior to clicks and added AltGr support. |
+| **v0.1.6** | Fixed Ctrl key handling issues. |
+| **v0.1.5** | Patched a major crash bug (same fix line as v0.1.4). |
+| **v0.1.4** | Patched a major crash bug. |
+| **v0.1.3** | Fixed -v unintentionally starting a recording session. |
+| **v0.1.2** | Added -v (version) and -h (help) flags. |
+| **v0.1.1** | Smoothed typing replay. |
+| **v0.1.0** | Initial release with Python code generation and custom module naming. |
