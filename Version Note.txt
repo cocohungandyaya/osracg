@@ -25,3 +25,5 @@ v0.2.1: improve the osracg_core component so now during recording it will be way
 v0.3.0: Now osracg support self upgrade by using the --upgrade command
 
 v0.3.1: Support for --update command which perform the same action as --upgrade
+
+v0.4.0: Added support for rust code generation and added --path command for dropping the code file to
