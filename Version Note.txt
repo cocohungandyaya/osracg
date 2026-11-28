@@ -27,3 +27,5 @@ v0.3.0: Now osracg support self upgrade by using the --upgrade command
 v0.3.1: Support for --update command which perform the same action as --upgrade
 
 v0.4.0: Added support for rust code generation and added --path command for dropping the code file to
+
+v0.4.1: patch a bug that cause the self-update/self-upgrade command to fail
