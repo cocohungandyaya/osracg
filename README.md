@@ -5,25 +5,33 @@ The file got generated is a standalone file which you can choose to either impor
 
 Full name:Os recorder action code generator
 # Quick Start
-Requirements:python installed,pip installed pyautogui
-
+for python it use pyautogui,for rust it use enigo,make sure you have those installed in order to run the code file generated
 1. Download the release that match your system 
 2. Run the osracg with your terminal/CMD opened in the same folder as where osracg locate
 
   Linux:
   ```
-  ./osracg your_file_name [-py(default) || -rs(developing)]
+  ./osracg your_file_name [-py(default) || -rs || --path [path_to_target_location]]
   ```
   Windows:
   ```
-  .\osracg your_file_name [-py(default) || -rs(developing)]
+  .\osracg your_file_name [-py(default) || -rs || --path [path_to_target_location]]
   ```
 3. it will auto perform Alt-Tab(This action won't be included in the generated file)so remember to put the page you want to record in the background first
-4. After you done recording press F12 to end the recording and it will auto generate a file call your_file_name.py
+4. After you done recording press F12 to end the recording and it will auto generate a file call your_file_name.py/your_file_name.rs
 5. To use the code file,you can rather run it directly or drop it to the same folder next to your python code file,to use it:
+
+**python**
 ```py
 import your_file_name
 your_file_name.osracg()
+```
+**rust**
+```rs
+mod your_file_name;
+fn main(){
+  your_file_name::osracg();
+}
 ```
 For details on what keys osracg support,check out [Support_keys](https://github.com/cocohungandyaya/osracg/blob/main/Support_Keys.txt)
 
