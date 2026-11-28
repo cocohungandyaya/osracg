@@ -256,7 +256,7 @@ async fn main(){
 				let minor:i32=latest_version.split(".").collect::<Vec<_>>()[1].parse::<i32>().unwrap();
 				let patch:i32=latest_version.split(".").collect::<Vec<_>>()[2].to_string().trim().parse::<i32>().unwrap();
 				let latest_version:String=format!("v{}.{}.{}",major,minor,patch);
-				if !(major<=cmajor&&minor<=cminor&&patch<=cpatch)&&((major>cmajor)||(major<=cmajor && minor>cminor)||(major <=cmajor && minor<=cminor && patch>cpatch){
+				if !(major<=cmajor&&minor<=cminor&&patch<=cpatch)&&((major>cmajor)||(major<=cmajor && minor>cminor)||(major <=cmajor && minor<=cminor && patch>cpatch)){
 					print!("A newer version is available:{} (current_version:{})\n",latest_version.clone(),current_version.clone());
 					print!("Pulling the latest release...\n");
 					let latest_link:String=format!("https://github.com/cocohungandyaya/osracg/releases/download/{}/osracg.exe",latest_version.clone());
