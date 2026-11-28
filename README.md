@@ -4,6 +4,7 @@
 
 Run the generated file directly or import/include it as a module in your own project.
 
+> **Demo (v0.4.1):** [Watch on YouTube](https://youtu.be/X-OoYOWBFgE)
 > **Demo (v0.1.9):** [Watch on YouTube](https://youtu.be/BXep_h8a7nY?si=BWVwMDX9v9g2CKTW)
 
 ---
