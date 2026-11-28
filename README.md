@@ -87,7 +87,7 @@ fn main() {
 | **v0.3.0** | Added self-upgrade support via --upgrade. |
 | **v0.2.1** | Improved osracg_core for smoother recording and lower lag. |
 | **v0.2.0** | Fixed Windows compatibility, embedded osracg_core into a single binary, and added smarter pause detection (pause ≥ 2s to record a delay). |
-| **v0.1.9** | Fixed backslash (\) handling and slightly tuned input durations for reliability. |
+| **v0.1.9** | Fixed backslash (\\) handling and slightly tuned input durations for reliability. |
 | **v0.1.8** | Faster Python execution and updated usage workflow. |
 | **v0.1.7** | Trimmed leading mouse movements prior to clicks and added AltGr support. |
 | **v0.1.6** | Fixed Ctrl key handling issues. |
