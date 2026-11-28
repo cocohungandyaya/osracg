@@ -243,7 +243,7 @@ async fn main(){
 	}
 	let cmajor:i32=0;
 	let cminor:i32=4;
-	let cpatch:i32=0;
+	let cpatch:i32=1;
 	let current_version:String=format!("v{}.{}.{}",cmajor,cminor,cpatch);
 	let mut enigo = Enigo::new(&Settings::default()).unwrap();
 	let args=env::args().collect::<Vec<_>>();
