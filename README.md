@@ -9,11 +9,11 @@ for python it use pyautogui,for rust it use enigo,make sure you have those insta
 1. Download the release that match your system 
 2. Run the osracg with your terminal/CMD opened in the same folder as where osracg locate
 
-  Linux:
+  **Linux**
   ```
   ./osracg your_file_name [-py(default) || -rs || --path [path_to_target_location]]
   ```
-  Windows:
+  **Windows**
   ```
   .\osracg your_file_name [-py(default) || -rs || --path [path_to_target_location]]
   ```
@@ -38,14 +38,14 @@ For details on what keys osracg support,check out [Support_keys](https://github.
 ### Note that mouse Wheel is not supported
 
 ## Additional command:
-Linux:
+**Linux**
 ```
 ./osracg -v
 ./osracg -h
 ./osracg --upgrade
 ./osracg --update
 ```
-Windows:
+**Windows**
 ```
 .\osracg -v
 .\osracg -h
