@@ -1,5 +1,3 @@
-Here is a clean, scannable README.md refactor designed so anyone landing on the repo immediately grasps what **osracg** does, how to run it, and how versions evolved—without getting bogged down in dense walls of text. (Also caught and fixed a small typo in your original Windows --update snippet where it had .\osrscg --update.)
-```markdown
 # osracg
 
 **OS Recorder Action Code Generator** — Record keyboard and mouse actions on your OS and automatically generate a standalone **Python** (`pyautogui`) or **Rust** (`enigo`) script.
